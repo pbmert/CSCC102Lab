@@ -1,0 +1,212 @@
+// The longest code in CSCC 102, before any revisions
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int promptCreateBooking() {
+    cout << "SBMR BUS TICKETING SERVICE" << endl;
+    cout << "***  ***  ***" << endl;
+    cout << "***  ***  ***" << endl;
+    cout << "***  ***  ***" << endl;
+
+    cout << "Bus Company" << endl;
+    cout << "A - Victory Liner" << endl;
+    cout << "  Destination" << endl;
+    cout << "     1 - Baguio-800php" << endl;
+    cout << "     2 - Pangasinan-750php" << endl;
+    cout << "     3 - Sagada-1000php" << endl;
+    
+    cout << "B - Five Star Bus" << endl;
+    cout << "  Destination" << endl;
+    cout << "     1 - Liloan, Southern Leyte -2200php" << endl;
+    cout << "     2 - Ormoc - 2090php" << endl;
+    cout << "     3 - Tacloban-1850php" << endl;
+    
+    cout << "C - Philtranco" << endl;
+    cout << "  Destination" << endl;
+    cout << "     1 - Cagayan de Oro - 2200php" << endl;
+    cout << "     2 - Davao - 2500php" << endl;
+    cout << "     3 - Surigao - 1800php" << endl;
+    
+    cout << "Bus Class:" << endl;
+    cout << "     O - Ordinary - No additional Fee" << endl;
+    cout << "     R - Regular Airconditioned - Addition fee of 100 php each" << endl;
+    cout << "     D - Deluxe - Additional fee of 200 php each" << endl;
+    
+    cout << "Trip Schedule:" << endl;
+    cout << "     6 - 6 AM" << endl;
+    cout << "     9 - 9 AM" << endl;
+    cout << "     12 - 12 PM" << endl;
+    
+    cout << "---------------------" << endl;
+    cout << "Booking Details:" << endl;
+
+    // ====== CHECKING INPUTS AND CALCULATION (the longest part of the code) ====== //
+    // This will allow us to indicate whether the destination chosen
+    // by the user is incorrect. Some trips may be free.
+    //
+    // `return 1` statement indicates that the program
+    // encountered an error while running
+    char bus, busClass = ' ';
+    int destination, numOfTickets = 0;
+    int day, year, tripSchedule = 0;
+    string month = " ";
+    
+    cout << "Bus: ";
+    cin >> bus;
+    bus = toupper(bus);
+    
+    cout << "Destination: ";
+    cin >> destination;
+    
+    double ticketBills = -1;
+    double fees = 0.0;
+
+    if (bus == 'A') {
+        if (destination == 1) {
+            ticketBills = 800.0;
+        } else if (destination == 2) {
+            ticketBills = 750.0;
+        } else if (destination == 3) {
+            ticketBills = 1000.0;
+        }
+    } else if (bus == 'B') {
+        if (destination == 1) {
+            ticketBills = 2200.0;
+        } else if (destination == 2) {
+            ticketBills = 2090.0;
+        } else if (destination == 3) {
+            ticketBills = 1850.0;
+        }
+    } else if (bus == 'C') {
+        if (destination == 1) {
+            ticketBills = 2200.0;
+        } else if (destination == 2) {
+            ticketBills = 2500.0;
+        } else if (destination == 3) {
+            ticketBills = 1800.0;
+        }
+    } else {
+        cout << "Bus " << bus << " is not within our list of bus companies. Please try again." << endl;
+        return 1;
+    }
+
+    if (ticketBills == -1) {
+        cout << "Invalid destination for Bus" << bus << ". Please try again." << endl;
+        return 1;
+    }
+    
+    cout << "Bus Class: ";
+    cin >> busClass;
+    
+    if (busClass == 'R') {
+        fees = 100.0;
+    } else if (busClass == 'D') {
+        fees = 200.0;
+    } else if (busClass != 'O' && busClass != '0') {
+        // O/0 (ordinary class) has no fees
+        cout << "We cannot find class for " << busClass << ". Please try again." << endl;
+        return 1;
+    }
+    
+    cout << "Number of Tickets: ";
+    cin >> numOfTickets;
+    
+    cout << "Month:";
+    cin >> month;
+    
+    cout << "Date:";
+    cin >> day;
+    
+    cout << "Year:";
+    cin >> year;
+    
+    cout << "Trip Schedule:";
+    cin >> tripSchedule;
+    
+    if (tripSchedule != 6 && tripSchedule != 9 && tripSchedule != 12) {
+        cout << "Schedule for " << tripSchedule << " is not available. Please try again." << endl;
+        return 1;
+    }
+    
+    // multiply fees and ticketBills by number of tickets
+    ticketBills *= numOfTickets;
+    fees *= numOfTickets;
+    
+    // ====== EMITTING SUMMARY OF BOOKING DETAILS ====== //
+    cout << "Booking Details: " << endl;
+    cout << "Bus: " << bus << endl;
+    
+    if (busClass == 'O') {
+        cout << "Bus Class: Ordinary" << endl;
+    } else if (busClass == 'R') {
+        cout << "Bus Class: Regular Airconditioned" << endl;
+    } else if (busClass == 'D' || busClass == '0') {
+        cout << "Bus Class: Deluxe" << endl;
+    }
+    
+    cout << "Destination:  " << destination << endl;
+    cout << "Number of Tickets:  " << numOfTickets << endl;
+    cout << "Ticket Bills:  " << ticketBills << endl;
+    cout << "Fee: " << fees << endl;
+    
+    cout << "You have successfully booked your Trip!" << endl;
+    cout << "Your trip will be on " << month << " " << day
+         << ", " << year << " at " << tripSchedule << " ";
+         
+    if (tripSchedule != 12) {
+        cout << "AM" << endl;
+    } else {
+        cout << "PM" << endl;
+    }
+         
+    cout << endl;
+    cout << "Thank you for booking with us!" << endl;
+    cout << "Have a safe trip!" << endl << endl;
+    
+    // ====== PAYMENT PROCESS ====== //
+    double totalTripBill = ticketBills + fees;
+    cout << "Total Trip Bill: " << totalTripBill << endl;
+    cout << endl;
+    
+    double payment = 0.0;
+    for (;;) {
+        cout << "Payment: ";
+        cin >> payment;
+        
+        if (payment >= totalTripBill) break;
+        cout << "Invalid payment, please input the right amount" << endl;
+    }
+    
+    double change = payment - totalTripBill;
+    cout << "Your Change: " << change << endl;
+    
+    return 0;
+}
+
+int main() {
+    for (;;) {
+        int status = promptCreateBooking();
+        
+        // Exit the program if promptCreateBooking is failed to continue
+        if (status == 1) {
+            return 1;
+        }
+        
+        for (;;) {
+            string promptAnswer = " ";
+            cout << "Do you want to create another booking? [yes/no]";
+            cin >> promptAnswer;
+            
+            char promptAnswerChar = toupper(promptAnswer[0]);
+            if (promptAnswerChar == 'Y') {
+                // do the entire thing again :)
+                break;
+            } else if (promptAnswerChar == 'N') {
+                cout << "Application terminated..." << endl;
+                return 0;
+            }
+        }
+    }
+}

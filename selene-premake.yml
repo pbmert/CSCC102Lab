@@ -1,0 +1,43 @@
+---
+globals:
+  workspace:
+    args:
+      - type: string
+        required: Workspace name is required
+  configurations:
+    args:
+      - type: table
+  project:
+    args:
+      - type: string
+        required: Project name is required
+  kind:
+    args:
+      - type: string
+  language:
+    args:
+      - type: string
+  cppdialect:
+    args:
+      - type: string
+  targetdir:
+    args:
+      - type: string
+  files:
+    args:
+      - type: table
+  defines:
+    args:
+      - type: table
+  filter:
+    args:
+      - type: string
+  symbols:
+    args:
+      - type: string
+  architecture:
+    args:
+      - type: string
+  optimize:
+    args:
+      - type: string
